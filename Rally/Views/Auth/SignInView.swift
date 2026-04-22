@@ -1,9 +1,7 @@
 import SwiftUI
-import AuthenticationServices
 
 struct SignInView: View {
     @EnvironmentObject var authVM: AuthViewModel
-    @State private var nonce: String = ""
 
     var body: some View {
         ZStack {
@@ -12,7 +10,6 @@ struct SignInView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                // Logo + wordmark
                 VStack(spacing: 16) {
                     ZStack {
                         Circle()
@@ -26,51 +23,49 @@ struct SignInView: View {
                     VStack(spacing: 6) {
                         Text("Rally")
                             .font(.system(size: 42, weight: .bold, design: .rounded))
-
                         Text("Find events near you.")
-                            .font(.system(size: 16, weight: .regular))
+                            .font(.system(size: 16))
                             .foregroundStyle(.secondary)
                     }
                 }
 
                 Spacer()
 
-                // Auth section
                 VStack(spacing: 16) {
                     if let error = authVM.errorMessage {
                         Text(error)
                             .font(.caption)
                             .foregroundStyle(.red)
                             .multilineTextAlignment(.center)
-                            .padding(.horizontal)
                     }
 
-                    SignInWithAppleButton(.signIn) { request in
-                        nonce = authVM.prepareSignIn()
-                        request.requestedScopes = [.fullName, .email]
-                        request.nonce = nonce
-                    } onCompletion: { result in
-                        switch result {
-                        case .success(let auth):
-                            Task { await authVM.completeSignIn(with: auth) }
-                        case .failure(let error):
-                            authVM.errorMessage = error.localizedDescription
+                    Button {
+                        Task { await authVM.signInAnonymously() }
+                    } label: {
+                        HStack {
+                            if authVM.isLoading {
+                                ProgressView().tint(.background)
+                            } else {
+                                Image(systemName: "arrow.right.circle.fill")
+                                Text("Continue as Guest")
+                                    .font(.system(size: 16, weight: .semibold))
+                            }
                         }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .background(.primary)
+                        .foregroundStyle(.background)
+                        .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
-                    .signInWithAppleButtonStyle(colorScheme == .dark ? .white : .black)
-                    .frame(height: 50)
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .disabled(authVM.isLoading)
 
-                    Text("By continuing you agree to our Terms & Privacy Policy.")
+                    Text("Sign in with Apple coming soon.")
                         .font(.caption2)
                         .foregroundStyle(.tertiary)
-                        .multilineTextAlignment(.center)
                 }
                 .padding(.horizontal, 32)
                 .padding(.bottom, 48)
             }
         }
     }
-
-    @Environment(\.colorScheme) private var colorScheme
 }

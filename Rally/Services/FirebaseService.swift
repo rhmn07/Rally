@@ -57,6 +57,13 @@ final class FirebaseService {
 
     // MARK: User
 
+    func createUserDocIfNeeded(_ user: AppUser) async throws {
+        let ref = db.collection("users").document(user.id)
+        let snapshot = try await ref.getDocument()
+        guard !snapshot.exists else { return }
+        try ref.setData(from: user)
+    }
+
     func fetchUser(uid: String) async throws -> AppUser {
         try await db.collection("users").document(uid).getDocument(as: AppUser.self)
     }

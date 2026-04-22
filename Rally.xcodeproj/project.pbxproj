@@ -11,6 +11,7 @@
 		1F6EDA1664EE6450147204D4 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA3119EC377EC4476E1906C /* EventDetailView.swift */; };
 		21438F305AFF94C5062FB1B3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675C61EBF543F8D31C57935 /* ContentView.swift */; };
 		273F5E6FD3BBFFC36100C358 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8AB8202049A3812DB0DEE /* AppUser.swift */; };
+		2771F9E5366C54B310EC14CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A6548347AEA46CEB0E280EC /* GoogleService-Info.plist */; };
 		2A3A532E64397C21C2C66843 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED6C40892182B77AAAC486D /* Event.swift */; };
 		317CD54CFE88B39B5BD7F615 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74886A5AC6881D780A20B810 /* MapViewModel.swift */; };
 		3394CB587A9D881318F43394 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 84EE73715E79250A68C63102 /* FirebaseStorage */; };
@@ -35,7 +36,6 @@
 
 /* Begin PBXFileReference section */
 		04AE33B33EDFCA34264A7EAD /* EventRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRowView.swift; sourceTree = "<group>"; };
-		0596A6E72F990C070073A0CB /* GoogleService-Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info 2.plist"; sourceTree = "<group>"; };
 		06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyApp.swift; sourceTree = "<group>"; };
 		1992FEDC1F9125FC367F6B42 /* Rally.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		209FC7E269E2E1B3AB831AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -52,6 +52,7 @@
 		80B8AB8202049A3812DB0DEE /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		840B0E3BE720242FDD42A60B /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		85118564217C456FAE4A8F6B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		9A6548347AEA46CEB0E280EC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9E71B0AD935621FF0BCDBA1 /* EventCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalloutView.swift; sourceTree = "<group>"; };
 		B24D30D504201BFB258CC3C5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		B3888E40625C8716F5E657CD /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -134,7 +135,7 @@
 		8CFBFCD43FE93083878EA3EA /* Rally */ = {
 			isa = PBXGroup;
 			children = (
-				0596A6E72F990C070073A0CB /* GoogleService-Info 2.plist */,
+				9A6548347AEA46CEB0E280EC /* GoogleService-Info.plist */,
 				209FC7E269E2E1B3AB831AFE /* Info.plist */,
 				7803DE6E53D80200F85B46A3 /* Rally.entitlements */,
 				06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */,
@@ -218,6 +219,7 @@
 			buildConfigurationList = C6C138202D08E179D40B3F95 /* Build configuration list for PBXNativeTarget "Rally" */;
 			buildPhases = (
 				47A7A744E81F5F22918E3614 /* Sources */,
+				30C1F423D426A2343D1D1B91 /* Resources */,
 				17AA6B3F0D66B39DF6CBA83F /* Frameworks */,
 			);
 			buildRules = (
@@ -242,6 +244,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 8022BDB212CB630C8A6A873A /* Build configuration list for PBXProject "Rally" */;
 			developmentRegion = en;
@@ -264,6 +268,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		30C1F423D426A2343D1D1B91 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2771F9E5366C54B310EC14CC /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		47A7A744E81F5F22918E3614 /* Sources */ = {

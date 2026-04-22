@@ -1,15 +1,14 @@
 import Foundation
 import FirebaseAuth
-import AuthenticationServices
 
 @MainActor
 final class AuthViewModel: ObservableObject {
     @Published var currentUser: AppUser = .empty
     @Published var isAuthenticated = false
+    @Published var isLoading = false
     @Published var errorMessage: String?
 
     private var authStateHandle: AuthStateDidChangeListenerHandle?
-    private var pendingNonce: String?
 
     init() {
         authStateHandle = Auth.auth().addStateDidChangeListener { [weak self] _, user in
@@ -28,25 +27,25 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
-    func prepareSignIn() -> String {
-        let nonce = AuthService.shared.randomNonceString()
-        pendingNonce = nonce
-        return AuthService.shared.sha256(nonce)
-    }
-
-    func completeSignIn(with authorization: ASAuthorization) async {
+    func signInAnonymously() async {
+        isLoading = true
+        defer { isLoading = false }
         do {
-            _ = try await AuthService.shared.handleSignInWithApple(
-                authorization: authorization,
-                nonce: pendingNonce
-            )
+            let result = try await Auth.auth().signInAnonymously()
+            let uid = result.user.uid
+            try await createUserDocIfNeeded(uid: uid, displayName: "Rally User")
         } catch {
             errorMessage = error.localizedDescription
         }
     }
 
     func signOut() {
-        try? AuthService.shared.signOut()
+        try? Auth.auth().signOut()
+    }
+
+    private func createUserDocIfNeeded(uid: String, displayName: String) async throws {
+        let appUser = AppUser(id: uid, displayName: displayName, eventsCreated: [], eventsAttending: [])
+        try await FirebaseService.shared.createUserDocIfNeeded(appUser)
     }
 
     private func loadUser(uid: String) async throws {
