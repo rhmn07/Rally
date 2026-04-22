@@ -6,19 +6,25 @@ struct LocationPickerView: View {
     @Binding var address: String
     @Environment(\.dismiss) private var dismiss
 
-    @State private var region = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(latitude: 37.3318, longitude: -122.0312),
-        span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+    @State private var position: MapCameraPosition = .region(
+        MKCoordinateRegion(
+            center: CLLocationCoordinate2D(latitude: 37.3318, longitude: -122.0312),
+            span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
+        )
     )
     @State private var searchText = ""
     @State private var searchResults: [MKMapItem] = []
-    @State private var selectedItem: MKMapItem?
+    @State private var selectedCoordinate: CLLocationCoordinate2D?
+    @State private var selectedName = ""
 
     var body: some View {
         NavigationStack {
             ZStack {
-                Map(coordinateRegion: $region, annotationItems: selectedItem.map { [$0] } ?? []) { item in
-                    MapMarker(coordinate: item.placemark.coordinate, tint: .primary)
+                Map(position: $position) {
+                    if let coord = selectedCoordinate {
+                        Marker(selectedName, coordinate: coord)
+                            .tint(.primary)
+                    }
                 }
                 .ignoresSafeArea()
 
@@ -76,6 +82,7 @@ struct LocationPickerView: View {
     }
 
     private func search() {
+        guard let region = position.region else { return }
         let request = MKLocalSearch.Request()
         request.naturalLanguageQuery = searchText
         request.region = region
@@ -85,16 +92,17 @@ struct LocationPickerView: View {
     }
 
     private func select(_ item: MKMapItem) {
-        selectedItem = item
-        searchResults = []
         let coord = item.placemark.coordinate
+        selectedCoordinate = coord
+        selectedName = item.name ?? ""
         coordinate = coord
         address = item.placemark.title ?? item.name ?? ""
+        searchResults = []
         withAnimation {
-            region = MKCoordinateRegion(
+            position = .region(MKCoordinateRegion(
                 center: coord,
                 span: MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
-            )
+            ))
         }
     }
 }

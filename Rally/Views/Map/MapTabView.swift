@@ -9,14 +9,17 @@ struct MapTabView: View {
 
     var body: some View {
         ZStack(alignment: .bottom) {
-            Map(coordinateRegion: $mapVM.region, showsUserLocation: true, annotationItems: eventsVM.events) { event in
-                MapAnnotation(coordinate: event.coordinate) {
-                    EventPinView(event: event, isSelected: mapVM.selectedEvent?.id == event.id)
-                        .onTapGesture {
-                            withAnimation(.spring(response: 0.3)) {
-                                mapVM.selectedEvent = event
+            Map(position: $mapVM.position) {
+                UserAnnotation()
+                ForEach(eventsVM.events) { event in
+                    Annotation(event.title, coordinate: event.coordinate, anchor: .bottom) {
+                        EventPinView(event: event, isSelected: mapVM.selectedEvent?.id == event.id)
+                            .onTapGesture {
+                                withAnimation(.spring(response: 0.3)) {
+                                    mapVM.selectedEvent = event
+                                }
                             }
-                        }
+                    }
                 }
             }
             .ignoresSafeArea()
