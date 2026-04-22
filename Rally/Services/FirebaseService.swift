@@ -6,7 +6,7 @@ import FirebaseStorage
 final class FirebaseService {
     static let shared = FirebaseService()
 
-    private let db = Firestore.firestore()
+    private let db = Firestore.firestore(database: "default")
     private let storage = Storage.storage()
 
     // MARK: Events
