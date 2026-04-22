@@ -35,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		04AE33B33EDFCA34264A7EAD /* EventRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRowView.swift; sourceTree = "<group>"; };
+		0596A6E72F990C070073A0CB /* GoogleService-Info 2.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info 2.plist"; sourceTree = "<group>"; };
 		06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyApp.swift; sourceTree = "<group>"; };
 		1992FEDC1F9125FC367F6B42 /* Rally.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		209FC7E269E2E1B3AB831AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -133,6 +134,7 @@
 		8CFBFCD43FE93083878EA3EA /* Rally */ = {
 			isa = PBXGroup;
 			children = (
+				0596A6E72F990C070073A0CB /* GoogleService-Info 2.plist */,
 				209FC7E269E2E1B3AB831AFE /* Info.plist */,
 				7803DE6E53D80200F85B46A3 /* Rally.entitlements */,
 				06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */,
@@ -240,8 +242,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 8022BDB212CB630C8A6A873A /* Build configuration list for PBXProject "Rally" */;
 			developmentRegion = en;

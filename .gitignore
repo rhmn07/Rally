@@ -32,6 +32,7 @@ Podfile.lock
 
 # Firebase — NEVER commit this
 GoogleService-Info.plist
+GoogleService-Info*.plist
 
 # macOS
 .DS_Store
