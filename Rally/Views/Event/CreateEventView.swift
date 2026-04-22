@@ -123,7 +123,7 @@ struct CreateEventView: View {
                                 address: address,
                                 imageData: photoData
                             )
-                            dismiss()
+                            await MainActor.run { dismiss() }
                         }
                     }
                     .disabled(!canSubmit || eventsVM.isLoading)

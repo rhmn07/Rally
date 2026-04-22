@@ -10,58 +10,65 @@ struct SignInView: View {
             VStack(spacing: 0) {
                 Spacer()
 
+                // Logo
                 VStack(spacing: 16) {
                     ZStack {
                         Circle()
-                            .fill(.primary)
+                            .fill(Color.black)
                             .frame(width: 80, height: 80)
                         Image(systemName: "car.2.fill")
                             .font(.system(size: 32, weight: .semibold))
-                            .foregroundStyle(.background)
+                            .foregroundColor(.white)
                     }
 
                     VStack(spacing: 6) {
                         Text("Rally")
                             .font(.system(size: 42, weight: .bold, design: .rounded))
+                            .foregroundColor(.primary)
                         Text("Find events near you.")
                             .font(.system(size: 16))
-                            .foregroundStyle(.secondary)
+                            .foregroundColor(.secondary)
                     }
                 }
 
                 Spacer()
 
+                // Auth section
                 VStack(spacing: 16) {
                     if let error = authVM.errorMessage {
                         Text(error)
                             .font(.caption)
-                            .foregroundStyle(.red)
+                            .foregroundColor(.red)
                             .multilineTextAlignment(.center)
                     }
 
                     Button {
                         Task { await authVM.signInAnonymously() }
                     } label: {
-                        HStack {
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 14)
+                                .fill(Color.black)
+                                .frame(height: 50)
+
                             if authVM.isLoading {
-                                ProgressView().tint(.background)
+                                ProgressView()
+                                    .tint(.white)
                             } else {
-                                Image(systemName: "arrow.right.circle.fill")
-                                Text("Continue as Guest")
-                                    .font(.system(size: 16, weight: .semibold))
+                                HStack(spacing: 8) {
+                                    Image(systemName: "arrow.right.circle.fill")
+                                        .foregroundColor(.white)
+                                    Text("Continue as Guest")
+                                        .font(.system(size: 16, weight: .semibold))
+                                        .foregroundColor(.white)
+                                }
                             }
                         }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 50)
-                        .background(.primary)
-                        .foregroundStyle(.background)
-                        .clipShape(RoundedRectangle(cornerRadius: 14))
                     }
                     .disabled(authVM.isLoading)
 
                     Text("Sign in with Apple coming soon.")
                         .font(.caption2)
-                        .foregroundStyle(.tertiary)
+                        .foregroundColor(Color(.tertiaryLabel))
                 }
                 .padding(.horizontal, 32)
                 .padding(.bottom, 48)

@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		04AE33B33EDFCA34264A7EAD /* EventRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRowView.swift; sourceTree = "<group>"; };
 		06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyApp.swift; sourceTree = "<group>"; };
-		1992FEDC1F9125FC367F6B42 /* Rally.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rally.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1992FEDC1F9125FC367F6B42 /* Rally.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Rally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		209FC7E269E2E1B3AB831AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27DDDFB01193CBB6783A1AFE /* EventPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPinView.swift; sourceTree = "<group>"; };
 		2ADF873F4136B6D9449D3A98 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
@@ -244,8 +244,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 8022BDB212CB630C8A6A873A /* Build configuration list for PBXProject "Rally" */;
 			developmentRegion = en;
@@ -374,6 +372,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Rally/Rally.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = K9SZ9HADG9;
 				INFOPLIST_FILE = Rally/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -392,6 +391,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Rally/Rally.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				DEVELOPMENT_TEAM = K9SZ9HADG9;
 				INFOPLIST_FILE = Rally/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

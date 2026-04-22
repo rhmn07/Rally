@@ -6,14 +6,31 @@ struct EventRowView: View {
 
     var body: some View {
         HStack(spacing: 14) {
-            // Category icon tile
+            // Thumbnail: photo or category icon
             ZStack {
                 RoundedRectangle(cornerRadius: 12)
                     .fill(Color(.secondarySystemBackground))
                     .frame(width: 56, height: 56)
-                Image(systemName: event.category.icon)
-                    .font(.system(size: 22, weight: .semibold))
+
+                if let urlString = event.imageURL, let url = URL(string: urlString) {
+                    AsyncImage(url: url) { phase in
+                        switch phase {
+                        case .success(let img):
+                            img.resizable()
+                                .scaledToFill()
+                                .frame(width: 56, height: 56)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                        default:
+                            Image(systemName: event.category.icon)
+                                .font(.system(size: 22, weight: .semibold))
+                        }
+                    }
+                } else {
+                    Image(systemName: event.category.icon)
+                        .font(.system(size: 22, weight: .semibold))
+                }
             }
+            .frame(width: 56, height: 56)
 
             VStack(alignment: .leading, spacing: 4) {
                 Text(event.title)
@@ -39,7 +56,6 @@ struct EventRowView: View {
 
             Spacer()
 
-            // Attendee pill
             VStack(alignment: .trailing, spacing: 4) {
                 HStack(spacing: 3) {
                     Image(systemName: "person.2.fill")
