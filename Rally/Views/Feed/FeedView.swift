@@ -156,19 +156,40 @@ private struct TrendingCard: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            // Background gradient
+            // Background: photo if available, otherwise gradient
+            if let urlStr = event.photoURL, let url = URL(string: urlStr) {
+                AsyncImage(url: url) { image in
+                    image.resizable().scaledToFill()
+                } placeholder: {
+                    LinearGradient(
+                        colors: [cardColor.opacity(0.85), cardColor.opacity(0.5)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                }
+            } else {
+                LinearGradient(
+                    colors: [cardColor.opacity(0.85), cardColor.opacity(0.5)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            }
+
+            // Dark scrim so text is always readable over photos
             LinearGradient(
-                colors: [cardColor.opacity(0.85), cardColor.opacity(0.5)],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                colors: [.clear, .black.opacity(0.55)],
+                startPoint: .top,
+                endPoint: .bottom
             )
 
-            // Category icon watermark
-            Image(systemName: event.category.icon)
-                .font(.system(size: 56, weight: .thin))
-                .foregroundStyle(.white.opacity(0.2))
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                .padding(16)
+            // Category icon watermark (only shown without a photo)
+            if event.photoURL == nil {
+                Image(systemName: event.category.icon)
+                    .font(.system(size: 56, weight: .thin))
+                    .foregroundStyle(.white.opacity(0.2))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                    .padding(16)
+            }
 
             // Content
             VStack(alignment: .leading, spacing: 6) {
