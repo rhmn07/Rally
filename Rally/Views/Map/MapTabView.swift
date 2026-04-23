@@ -45,41 +45,34 @@ struct MapTabView: View {
                 .animation(.spring(response: 0.35), value: mapVM.selectedEvent?.id)
             }
 
-            // FAB
+            // Top-right controls: locate + create event
             VStack {
-                Spacer()
                 HStack {
                     Spacer()
-                    Button {
-                        showCreateEvent = true
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(.background)
-                            .frame(width: 56, height: 56)
-                            .background(.primary)
-                            .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.18), radius: 8, y: 4)
-                    }
-                    .padding(.trailing, 20)
-                    .padding(.bottom, 100)
-                }
-            }
+                    VStack(spacing: 10) {
+                        Button {
+                            withAnimation { mapVM.centerOnUser() }
+                        } label: {
+                            Image(systemName: "location.fill")
+                                .font(.system(size: 16, weight: .medium))
+                                .foregroundStyle(.primary)
+                                .frame(width: 44, height: 44)
+                                .background(.regularMaterial)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+                        }
 
-            // Locate me button
-            VStack {
-                HStack {
-                    Spacer()
-                    Button {
-                        withAnimation { mapVM.centerOnUser() }
-                    } label: {
-                        Image(systemName: "location.fill")
-                            .font(.system(size: 16, weight: .medium))
-                            .foregroundStyle(.primary)
-                            .frame(width: 40, height: 40)
-                            .background(.regularMaterial)
-                            .clipShape(Circle())
-                            .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+                        Button {
+                            showCreateEvent = true
+                        } label: {
+                            Image(systemName: "plus")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundStyle(.background)
+                                .frame(width: 44, height: 44)
+                                .background(.primary)
+                                .clipShape(Circle())
+                                .shadow(color: .black.opacity(0.18), radius: 6, y: 3)
+                        }
                     }
                     .padding(.trailing, 16)
                     .padding(.top, 56)
