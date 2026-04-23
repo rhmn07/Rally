@@ -1,5 +1,6 @@
 import SwiftUI
 import MapKit
+import PhotosUI
 
 struct CreateEventView: View {
     @EnvironmentObject var eventsVM: EventsViewModel
@@ -12,6 +13,11 @@ struct CreateEventView: View {
     @State private var address = ""
     @State private var coordinate = CLLocationCoordinate2D(latitude: 37.3318, longitude: -122.0312)
     @State private var showLocationPicker = false
+
+    @State private var selectedPhotoItem: PhotosPickerItem?
+    @State private var selectedImage: UIImage?
+    @State private var isUploadingPhoto = false
+    @State private var photoURL: String?
 
     private var canSubmit: Bool {
         !title.trimmingCharacters(in: .whitespaces).isEmpty && !address.isEmpty
@@ -35,6 +41,50 @@ struct CreateEventView: View {
                 Section("Description") {
                     TextEditor(text: $description)
                         .frame(minHeight: 80)
+                }
+
+                Section("Photo") {
+                    if let img = selectedImage {
+                        Image(uiImage: img)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(height: 160)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .listRowInsets(EdgeInsets())
+
+                        if isUploadingPhoto {
+                            HStack(spacing: 8) {
+                                ProgressView()
+                                Text("Uploading…")
+                                    .font(.system(size: 14))
+                                    .foregroundStyle(.secondary)
+                            }
+                        } else {
+                            Button(role: .destructive) {
+                                selectedImage = nil
+                                selectedPhotoItem = nil
+                                photoURL = nil
+                            } label: {
+                                Label("Remove Photo", systemImage: "trash")
+                                    .font(.system(size: 14))
+                            }
+                        }
+                    } else {
+                        PhotosPicker(selection: $selectedPhotoItem, matching: .images) {
+                            Label("Add Photo", systemImage: "photo")
+                        }
+                    }
+                }
+                .onChange(of: selectedPhotoItem) { _, item in
+                    Task {
+                        guard let item,
+                              let data = try? await item.loadTransferable(type: Data.self),
+                              let img = UIImage(data: data) else { return }
+                        selectedImage = img
+                        isUploadingPhoto = true
+                        photoURL = try? await CloudinaryService.upload(img)
+                        isUploadingPhoto = false
+                    }
                 }
 
                 Section("Location") {
@@ -73,12 +123,13 @@ struct CreateEventView: View {
                                 category: category,
                                 date: date,
                                 coordinate: coordinate,
-                                address: address
+                                address: address,
+                                photoURL: photoURL
                             )
                             await MainActor.run { dismiss() }
                         }
                     }
-                    .disabled(!canSubmit || eventsVM.isLoading)
+                    .disabled(!canSubmit || isUploadingPhoto || eventsVM.isLoading)
                     .fontWeight(.semibold)
                 }
             }

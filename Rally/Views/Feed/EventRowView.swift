@@ -12,8 +12,19 @@ struct EventRowView: View {
                     .fill(Color(.secondarySystemBackground))
                     .frame(width: 56, height: 56)
 
-                Image(systemName: event.category.icon)
-                    .font(.system(size: 22, weight: .semibold))
+                if let urlStr = event.photoURL, let url = URL(string: urlStr) {
+                    AsyncImage(url: url) { image in
+                        image.resizable().scaledToFill()
+                    } placeholder: {
+                        Image(systemName: event.category.icon)
+                            .font(.system(size: 22, weight: .semibold))
+                    }
+                    .frame(width: 56, height: 56)
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                } else {
+                    Image(systemName: event.category.icon)
+                        .font(.system(size: 22, weight: .semibold))
+                }
             }
             .frame(width: 56, height: 56)
 

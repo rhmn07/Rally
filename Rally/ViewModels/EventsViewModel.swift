@@ -54,7 +54,8 @@ final class EventsViewModel: ObservableObject {
         category: EventCategory,
         date: Date,
         coordinate: CLLocationCoordinate2D,
-        address: String
+        address: String,
+        photoURL: String? = nil
     ) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         isLoading = true
@@ -73,7 +74,8 @@ final class EventsViewModel: ObservableObject {
             organizerID: uid,
             organizerName: Auth.auth().currentUser?.displayName ?? "Rally User",
             attendeeIDs: [uid],
-            tags: []
+            tags: [],
+            photoURL: photoURL
         )
 
         do {

@@ -114,8 +114,17 @@ struct EventDetailView: View {
 
     private var heroSection: some View {
         ZStack(alignment: .bottomLeading) {
-            categoryGradient
+            if let urlStr = event.photoURL, let url = URL(string: urlStr) {
+                AsyncImage(url: url) { image in
+                    image.resizable().scaledToFill()
+                } placeholder: {
+                    categoryGradient
+                }
                 .frame(height: 260)
+                .clipped()
+            } else {
+                categoryGradient.frame(height: 260)
+            }
         }
     }
 

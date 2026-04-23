@@ -36,6 +36,7 @@ struct RallyEvent: Identifiable, Codable {
     var organizerName: String
     var attendeeIDs: [String]
     var tags: [String]
+    var photoURL: String?
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -69,7 +70,8 @@ struct RallyEvent: Identifiable, Codable {
             organizerID: "user1",
             organizerName: "Alex Chen",
             attendeeIDs: ["u1", "u2", "u3", "u4", "u5"],
-            tags: ["all-welcome", "sunday"]
+            tags: ["all-welcome", "sunday"],
+            photoURL: nil
         )
     }
 }
