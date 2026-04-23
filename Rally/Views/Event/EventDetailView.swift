@@ -6,6 +6,7 @@ struct EventDetailView: View {
     @EnvironmentObject var eventsVM: EventsViewModel
     @Environment(\.dismiss) private var dismiss
     @State private var isRSVPing = false
+    @State private var showDeleteConfirm = false
 
     private var isAttending: Bool { eventsVM.isAttending(event) }
 
@@ -79,6 +80,33 @@ struct EventDetailView: View {
                             .font(.system(size: 24))
                     }
                 }
+                ToolbarItem(placement: .primaryAction) {
+                    ShareLink(
+                        item: "\(event.title)\n\(event.date.formatted(date: .long, time: .shortened))\n\(event.address)\n\(event.description)"
+                    ) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
+                }
+                if eventsVM.isOrganizer(event) {
+                    ToolbarItem(placement: .destructiveAction) {
+                        Button(role: .destructive) {
+                            showDeleteConfirm = true
+                        } label: {
+                            Image(systemName: "trash")
+                        }
+                    }
+                }
+            }
+            .confirmationDialog("Delete this event?", isPresented: $showDeleteConfirm, titleVisibility: .visible) {
+                Button("Delete", role: .destructive) {
+                    Task {
+                        await eventsVM.deleteEvent(event)
+                        await MainActor.run { dismiss() }
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("This cannot be undone.")
             }
             .toolbarBackground(.hidden, for: .navigationBar)
         }
@@ -86,18 +114,8 @@ struct EventDetailView: View {
 
     private var heroSection: some View {
         ZStack(alignment: .bottomLeading) {
-            if let url = event.imageURL, let imageURL = URL(string: url) {
-                AsyncImage(url: imageURL) { img in
-                    img.resizable().scaledToFill()
-                } placeholder: {
-                    categoryGradient
-                }
+            categoryGradient
                 .frame(height: 260)
-                .clipped()
-            } else {
-                categoryGradient
-                    .frame(height: 260)
-            }
         }
     }
 

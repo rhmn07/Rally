@@ -1,6 +1,5 @@
 import SwiftUI
 import MapKit
-import PhotosUI
 
 struct CreateEventView: View {
     @EnvironmentObject var eventsVM: EventsViewModel
@@ -13,9 +12,6 @@ struct CreateEventView: View {
     @State private var address = ""
     @State private var coordinate = CLLocationCoordinate2D(latitude: 37.3318, longitude: -122.0312)
     @State private var showLocationPicker = false
-    @State private var photoItem: PhotosPickerItem?
-    @State private var photoData: Data?
-    @State private var photoImage: Image?
 
     private var canSubmit: Bool {
         !title.trimmingCharacters(in: .whitespaces).isEmpty && !address.isEmpty
@@ -24,49 +20,6 @@ struct CreateEventView: View {
     var body: some View {
         NavigationStack {
             Form {
-                // Photo picker
-                Section {
-                    PhotosPicker(selection: $photoItem, matching: .images) {
-                        ZStack {
-                            if let img = photoImage {
-                                img
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 160)
-                                    .clipped()
-                            } else {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(Color(.secondarySystemBackground))
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 120)
-                                    .overlay {
-                                        VStack(spacing: 6) {
-                                            Image(systemName: "photo.badge.plus")
-                                                .font(.system(size: 28))
-                                                .foregroundStyle(.tertiary)
-                                            Text("Add Cover Photo")
-                                                .font(.system(size: 13))
-                                                .foregroundStyle(.secondary)
-                                        }
-                                    }
-                            }
-                        }
-                    }
-                    .onChange(of: photoItem) { _, item in
-                        Task {
-                            guard let item else { return }
-                            if let data = try? await item.loadTransferable(type: Data.self) {
-                                photoData = data
-                                if let uiImage = UIImage(data: data) {
-                                    photoImage = Image(uiImage: uiImage)
-                                }
-                            }
-                        }
-                    }
-                }
-                .listRowInsets(EdgeInsets())
-
                 Section("Details") {
                     TextField("Event title", text: $title)
 
@@ -120,8 +73,7 @@ struct CreateEventView: View {
                                 category: category,
                                 date: date,
                                 coordinate: coordinate,
-                                address: address,
-                                imageData: photoData
+                                address: address
                             )
                             await MainActor.run { dismiss() }
                         }

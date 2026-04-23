@@ -7,14 +7,30 @@ import CoreLocation
 final class EventsViewModel: ObservableObject {
     @Published var events: [RallyEvent] = []
     @Published var selectedCategory: EventCategory?
+    @Published var maxDistanceMiles: Double? = nil
     @Published var isLoading = false
     @Published var errorMessage: String?
 
     private var listener: ListenerRegistration?
 
+    var trendingEvents: [RallyEvent] {
+        let upcoming = events.filter { $0.date > Date() }
+        let pool = upcoming.isEmpty ? events : upcoming
+        return Array(pool.sorted { $0.attendeeCount > $1.attendeeCount }.prefix(5))
+    }
+
     var filteredEvents: [RallyEvent] {
-        guard let cat = selectedCategory else { return events }
-        return events.filter { $0.category == cat }
+        var result = events
+        if let cat = selectedCategory {
+            result = result.filter { $0.category == cat }
+        }
+        if let max = maxDistanceMiles, let loc = LocationService.shared.userLocation {
+            result = result.filter { event in
+                let eventLoc = CLLocation(latitude: event.latitude, longitude: event.longitude)
+                return loc.distance(from: eventLoc) / 1609.34 <= max
+            }
+        }
+        return result
     }
 
     func startListening() {
@@ -38,20 +54,13 @@ final class EventsViewModel: ObservableObject {
         category: EventCategory,
         date: Date,
         coordinate: CLLocationCoordinate2D,
-        address: String,
-        imageData: Data?
+        address: String
     ) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         isLoading = true
         defer { isLoading = false }
 
         let id = UUID().uuidString
-        var imageURL: String?
-
-        if let data = imageData {
-            imageURL = try? await FirebaseService.shared.uploadEventImage(data, eventID: id)
-        }
-
         let event = RallyEvent(
             id: id,
             title: title,
@@ -64,7 +73,6 @@ final class EventsViewModel: ObservableObject {
             organizerID: uid,
             organizerName: Auth.auth().currentUser?.displayName ?? "Rally User",
             attendeeIDs: [uid],
-            imageURL: imageURL,
             tags: []
         )
 

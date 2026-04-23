@@ -9,6 +9,9 @@ packages:
   FirebaseFirestore:
     url: https://github.com/firebase/firebase-ios-sdk
     from: "11.0.0"
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS
+    from: "7.0.0"
 
 targets:
   Rally:
@@ -29,7 +32,9 @@ targets:
         product: FirebaseFirestore
       - package: FirebaseFirestore
         product: FirebaseAuth
-      - package: FirebaseFirestore
-        product: FirebaseStorage
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - package: GoogleSignIn
+        product: GoogleSignInSwift
     entitlements:
       path: Rally/Rally.entitlements

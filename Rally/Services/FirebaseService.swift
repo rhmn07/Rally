@@ -1,13 +1,11 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseAuth
-import FirebaseStorage
 
 final class FirebaseService {
     static let shared = FirebaseService()
 
     private let db = Firestore.firestore(database: "default")
-    private let storage = Storage.storage()
 
     // MARK: Events
 
@@ -25,34 +23,34 @@ final class FirebaseService {
         try db.collection("events").document(event.id).setData(from: event)
 
         guard let uid = Auth.auth().currentUser?.uid else { return }
-        try await db.collection("users").document(uid).updateData([
+        try await db.collection("users").document(uid).setData([
             "eventsCreated": FieldValue.arrayUnion([event.id])
-        ])
+        ], merge: true)
     }
 
     func rsvp(eventID: String, userID: String) async throws {
         try await db.collection("events").document(eventID).updateData([
             "attendeeIDs": FieldValue.arrayUnion([userID])
         ])
-        try await db.collection("users").document(userID).updateData([
+        try await db.collection("users").document(userID).setData([
             "eventsAttending": FieldValue.arrayUnion([eventID])
-        ])
+        ], merge: true)
     }
 
     func cancelRSVP(eventID: String, userID: String) async throws {
         try await db.collection("events").document(eventID).updateData([
             "attendeeIDs": FieldValue.arrayRemove([userID])
         ])
-        try await db.collection("users").document(userID).updateData([
+        try await db.collection("users").document(userID).setData([
             "eventsAttending": FieldValue.arrayRemove([eventID])
-        ])
+        ], merge: true)
     }
 
     func deleteEvent(eventID: String, organizerID: String) async throws {
         try await db.collection("events").document(eventID).delete()
-        try await db.collection("users").document(organizerID).updateData([
+        try await db.collection("users").document(organizerID).setData([
             "eventsCreated": FieldValue.arrayRemove([eventID])
-        ])
+        ], merge: true)
     }
 
     // MARK: User
@@ -72,14 +70,4 @@ final class FirebaseService {
         try await db.collection("users").document(uid).updateData(["displayName": name])
     }
 
-    // MARK: Storage
-
-    func uploadEventImage(_ data: Data, eventID: String) async throws -> String {
-        let ref = storage.reference().child("events/\(eventID).jpg")
-        let meta = StorageMetadata()
-        meta.contentType = "image/jpeg"
-        _ = try await ref.putDataAsync(data, metadata: meta)
-        let url = try await ref.downloadURL()
-        return url.absoluteString
-    }
 }

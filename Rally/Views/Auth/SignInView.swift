@@ -1,4 +1,5 @@
 import SwiftUI
+import GoogleSignInSwift
 
 struct SignInView: View {
     @EnvironmentObject var authVM: AuthViewModel
@@ -42,33 +43,11 @@ struct SignInView: View {
                             .multilineTextAlignment(.center)
                     }
 
-                    Button {
-                        Task { await authVM.signInAnonymously() }
-                    } label: {
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 14)
-                                .fill(Color.black)
-                                .frame(height: 50)
-
-                            if authVM.isLoading {
-                                ProgressView()
-                                    .tint(.white)
-                            } else {
-                                HStack(spacing: 8) {
-                                    Image(systemName: "arrow.right.circle.fill")
-                                        .foregroundColor(.white)
-                                    Text("Continue as Guest")
-                                        .font(.system(size: 16, weight: .semibold))
-                                        .foregroundColor(.white)
-                                }
-                            }
-                        }
+                    GoogleSignInButton(scheme: .dark, style: .wide, state: authVM.isLoading ? .disabled : .normal) {
+                        Task { await authVM.signInWithGoogle() }
                     }
+                    .frame(height: 50)
                     .disabled(authVM.isLoading)
-
-                    Text("Sign in with Apple coming soon.")
-                        .font(.caption2)
-                        .foregroundColor(Color(.tertiaryLabel))
                 }
                 .padding(.horizontal, 32)
                 .padding(.bottom, 48)

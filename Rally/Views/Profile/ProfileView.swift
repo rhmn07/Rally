@@ -3,6 +3,7 @@ import SwiftUI
 struct ProfileView: View {
     @EnvironmentObject var authVM: AuthViewModel
     @EnvironmentObject var eventsVM: EventsViewModel
+    @AppStorage("appColorScheme") private var colorSchemeRaw = 0
     @State private var isEditingName = false
     @State private var draftName = ""
     @State private var showEventDetail: RallyEvent?
@@ -22,12 +23,25 @@ struct ProfileView: View {
                 // Profile header
                 Section {
                     HStack(spacing: 16) {
-                        ZStack {
-                            Circle()
-                                .fill(Color(.secondarySystemBackground))
+                        Group {
+                            if let urlStr = authVM.currentUser.profileImageURL,
+                               let url = URL(string: urlStr) {
+                                AsyncImage(url: url) { image in
+                                    image.resizable().scaledToFill()
+                                } placeholder: {
+                                    ProgressView()
+                                }
                                 .frame(width: 60, height: 60)
-                            Text(authVM.currentUser.displayName.prefix(1).uppercased())
-                                .font(.system(size: 24, weight: .semibold))
+                                .clipShape(Circle())
+                            } else {
+                                ZStack {
+                                    Circle()
+                                        .fill(Color(.secondarySystemBackground))
+                                        .frame(width: 60, height: 60)
+                                    Text(authVM.currentUser.displayName.prefix(1).uppercased())
+                                        .font(.system(size: 24, weight: .semibold))
+                                }
+                            }
                         }
 
                         VStack(alignment: .leading, spacing: 4) {
@@ -105,6 +119,15 @@ struct ProfileView: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 24)
                     }
+                }
+
+                Section("Appearance") {
+                    Picker("Theme", selection: $colorSchemeRaw) {
+                        Text("System").tag(0)
+                        Text("Light").tag(1)
+                        Text("Dark").tag(2)
+                    }
+                    .pickerStyle(.segmented)
                 }
 
                 Section {
