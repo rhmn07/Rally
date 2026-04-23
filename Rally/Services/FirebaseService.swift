@@ -70,4 +70,21 @@ final class FirebaseService {
         try await db.collection("users").document(uid).updateData(["displayName": name])
     }
 
+    // MARK: Comments
+
+    func commentsListener(eventID: String, completion: @escaping ([Comment]) -> Void) -> ListenerRegistration {
+        db.collection("events").document(eventID).collection("comments")
+            .order(by: "createdAt")
+            .addSnapshotListener { snapshot, _ in
+                guard let docs = snapshot?.documents else { return }
+                let comments = docs.compactMap { try? $0.data(as: Comment.self) }
+                completion(comments)
+            }
+    }
+
+    func postComment(_ comment: Comment, eventID: String) async throws {
+        try db.collection("events").document(eventID)
+            .collection("comments").document(comment.id).setData(from: comment)
+    }
+
 }

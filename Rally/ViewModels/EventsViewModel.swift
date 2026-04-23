@@ -55,7 +55,8 @@ final class EventsViewModel: ObservableObject {
         date: Date,
         coordinate: CLLocationCoordinate2D,
         address: String,
-        photoURL: String? = nil
+        photoURL: String? = nil,
+        capacity: Int? = nil
     ) async {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         isLoading = true
@@ -75,7 +76,8 @@ final class EventsViewModel: ObservableObject {
             organizerName: Auth.auth().currentUser?.displayName ?? "Rally User",
             attendeeIDs: [uid],
             tags: [],
-            photoURL: photoURL
+            photoURL: photoURL,
+            capacity: capacity
         )
 
         do {
@@ -90,8 +92,10 @@ final class EventsViewModel: ObservableObject {
         do {
             if event.attendeeIDs.contains(uid) {
                 try await FirebaseService.shared.cancelRSVP(eventID: event.id, userID: uid)
+                NotificationService.cancelReminder(for: event)
             } else {
                 try await FirebaseService.shared.rsvp(eventID: event.id, userID: uid)
+                NotificationService.scheduleReminder(for: event)
             }
         } catch {
             errorMessage = error.localizedDescription
@@ -115,4 +119,7 @@ final class EventsViewModel: ObservableObject {
     func isOrganizer(_ event: RallyEvent) -> Bool {
         Auth.auth().currentUser?.uid == event.organizerID
     }
+
+    var currentUserID: String? { Auth.auth().currentUser?.uid }
+    var currentUserName: String { Auth.auth().currentUser?.displayName ?? "Rally User" }
 }

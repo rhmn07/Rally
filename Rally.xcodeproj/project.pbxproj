@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		028A142623930D13AB3CECB2 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B545AF472DE610D790C06BEC /* GoogleSignInSwift */; };
-		0596A6EC2F99A8DB0073A0CB /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0596A6EB2F99A8DA0073A0CB /* GoogleService-Info.plist */; };
 		194FD3B9B9D560433F358760 /* CreateEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7EF5CA283439E942F34A171 /* CreateEventView.swift */; };
 		1F6EDA1664EE6450147204D4 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBA3119EC377EC4476E1906C /* EventDetailView.swift */; };
 		21438F305AFF94C5062FB1B3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4675C61EBF543F8D31C57935 /* ContentView.swift */; };
 		273F5E6FD3BBFFC36100C358 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B8AB8202049A3812DB0DEE /* AppUser.swift */; };
+		2771F9E5366C54B310EC14CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9A6548347AEA46CEB0E280EC /* GoogleService-Info.plist */; };
 		2A3A532E64397C21C2C66843 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7ED6C40892182B77AAAC486D /* Event.swift */; };
 		317CD54CFE88B39B5BD7F615 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74886A5AC6881D780A20B810 /* MapViewModel.swift */; };
 		3394CB587A9D881318F43394 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 9713173B137B4DA63CAA4216 /* GoogleSignIn */; };
@@ -24,10 +24,13 @@
 		55C091BAE83918B1C463D2EE /* FirebaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67FC748D9504EFB2CB61A0BA /* FirebaseService.swift */; };
 		55F675916D95DB236B56ED0E /* EventRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04AE33B33EDFCA34264A7EAD /* EventRowView.swift */; };
 		5F331D72D2943B3CAA10B5F5 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 118BAEDB39C5E974FFCA97E3 /* FirebaseFirestore */; };
+		8E823A4FAEDC1F31405DBF62 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3772E09E6A89F5FC2823E6BD /* NotificationService.swift */; };
 		909F948CF72ECDD8CC5DE153 /* RallyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */; };
 		967BE4FA3CED965BCB03AC68 /* EventPinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27DDDFB01193CBB6783A1AFE /* EventPinView.swift */; };
+		AA9C025056BCEB0B344BF257 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1A4ACFADEDD53651BFD2E /* Comment.swift */; };
 		B8318E07A552EC50CAE7E220 /* MapTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4A1B3AD0254334AEFAE1205 /* MapTabView.swift */; };
 		C280562F0EC7CF924354FAFB /* EventCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9E71B0AD935621FF0BCDBA1 /* EventCalloutView.swift */; };
+		DBB6A47AE3DC2D2E5AB79E00 /* CloudinaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AA64FC3BDAEC0E989E1DC4F /* CloudinaryService.swift */; };
 		DF27BF5487D77B529F90270D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = A5599DE0B782B106F79ABF3D /* FirebaseAuth */; };
 		E73FD1EF786D7C90090BB2C5 /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EACD9A9458D0CCD125FB0C43 /* SignInView.swift */; };
 		EB3C55F703E4AD2576D8A54B /* EventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2ADF873F4136B6D9449D3A98 /* EventsViewModel.swift */; };
@@ -37,14 +40,16 @@
 
 /* Begin PBXFileReference section */
 		04AE33B33EDFCA34264A7EAD /* EventRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRowView.swift; sourceTree = "<group>"; };
-		0596A6EB2F99A8DA0073A0CB /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RallyApp.swift; sourceTree = "<group>"; };
 		1992FEDC1F9125FC367F6B42 /* Rally.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Rally.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		209FC7E269E2E1B3AB831AFE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		27DDDFB01193CBB6783A1AFE /* EventPinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPinView.swift; sourceTree = "<group>"; };
+		2AA64FC3BDAEC0E989E1DC4F /* CloudinaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudinaryService.swift; sourceTree = "<group>"; };
 		2ADF873F4136B6D9449D3A98 /* EventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsViewModel.swift; sourceTree = "<group>"; };
 		2DB15EFF0BD3D829A0FB70A8 /* LocationPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPickerView.swift; sourceTree = "<group>"; };
+		3772E09E6A89F5FC2823E6BD /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		4675C61EBF543F8D31C57935 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		4FC1A4ACFADEDD53651BFD2E /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		58B4458D83CE11F43DC66883 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		67FC748D9504EFB2CB61A0BA /* FirebaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseService.swift; sourceTree = "<group>"; };
 		738BAF7458B6804FC776049F /* CategoryBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryBadge.swift; sourceTree = "<group>"; };
@@ -54,6 +59,7 @@
 		80B8AB8202049A3812DB0DEE /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		840B0E3BE720242FDD42A60B /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		85118564217C456FAE4A8F6B /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		9A6548347AEA46CEB0E280EC /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A9E71B0AD935621FF0BCDBA1 /* EventCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCalloutView.swift; sourceTree = "<group>"; };
 		B24D30D504201BFB258CC3C5 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		B3888E40625C8716F5E657CD /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
@@ -82,8 +88,10 @@
 			isa = PBXGroup;
 			children = (
 				58B4458D83CE11F43DC66883 /* AuthService.swift */,
+				2AA64FC3BDAEC0E989E1DC4F /* CloudinaryService.swift */,
 				67FC748D9504EFB2CB61A0BA /* FirebaseService.swift */,
 				B3888E40625C8716F5E657CD /* LocationService.swift */,
+				3772E09E6A89F5FC2823E6BD /* NotificationService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -137,7 +145,7 @@
 		8CFBFCD43FE93083878EA3EA /* Rally */ = {
 			isa = PBXGroup;
 			children = (
-				0596A6EB2F99A8DA0073A0CB /* GoogleService-Info.plist */,
+				9A6548347AEA46CEB0E280EC /* GoogleService-Info.plist */,
 				209FC7E269E2E1B3AB831AFE /* Info.plist */,
 				7803DE6E53D80200F85B46A3 /* Rally.entitlements */,
 				06AF7CDCA7C84BDF18ABE4B8 /* RallyApp.swift */,
@@ -163,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				80B8AB8202049A3812DB0DEE /* AppUser.swift */,
+				4FC1A4ACFADEDD53651BFD2E /* Comment.swift */,
 				7ED6C40892182B77AAAC486D /* Event.swift */,
 			);
 			path = Models;
@@ -247,6 +256,8 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+				};
 			};
 			buildConfigurationList = 8022BDB212CB630C8A6A873A /* Build configuration list for PBXProject "Rally" */;
 			developmentRegion = en;
@@ -276,7 +287,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0596A6EC2F99A8DB0073A0CB /* GoogleService-Info.plist in Resources */,
+				2771F9E5366C54B310EC14CC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +302,8 @@
 				38E68468E2FAFE3169334076 /* AuthService.swift in Sources */,
 				3E7FB93FEEDAF6994D22001F /* AuthViewModel.swift in Sources */,
 				FA2503582656DD02B2DEBB46 /* CategoryBadge.swift in Sources */,
+				DBB6A47AE3DC2D2E5AB79E00 /* CloudinaryService.swift in Sources */,
+				AA9C025056BCEB0B344BF257 /* Comment.swift in Sources */,
 				21438F305AFF94C5062FB1B3 /* ContentView.swift in Sources */,
 				194FD3B9B9D560433F358760 /* CreateEventView.swift in Sources */,
 				2A3A532E64397C21C2C66843 /* Event.swift in Sources */,
@@ -305,6 +318,7 @@
 				F53847DDBD469C15684C3094 /* LocationService.swift in Sources */,
 				B8318E07A552EC50CAE7E220 /* MapTabView.swift in Sources */,
 				317CD54CFE88B39B5BD7F615 /* MapViewModel.swift in Sources */,
+				8E823A4FAEDC1F31405DBF62 /* NotificationService.swift in Sources */,
 				4F773811C33448AF86799DD7 /* ProfileView.swift in Sources */,
 				909F948CF72ECDD8CC5DE153 /* RallyApp.swift in Sources */,
 				E73FD1EF786D7C90090BB2C5 /* SignInView.swift in Sources */,

@@ -27,7 +27,7 @@ struct ContentView: View {
                 }
                 .tag(2)
         }
-        .tint(.primary)
+        .tint(Color.orange)
         .environmentObject(eventsVM)
         .environmentObject(mapVM)
         .sheet(isPresented: $showCreateEvent) {
@@ -36,6 +36,7 @@ struct ContentView: View {
         }
         .onAppear {
             eventsVM.startListening()
+            Task { await NotificationService.requestPermission() }
         }
     }
 }

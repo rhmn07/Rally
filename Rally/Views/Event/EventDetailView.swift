@@ -7,6 +7,9 @@ struct EventDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @State private var isRSVPing = false
     @State private var showDeleteConfirm = false
+    @State private var comments: [Comment] = []
+    @State private var commentText = ""
+    @State private var isPostingComment = false
 
     private var isAttending: Bool { eventsVM.isAttending(event) }
 
@@ -40,12 +43,26 @@ struct EventDetailView: View {
 
                         // Attendees
                         VStack(alignment: .leading, spacing: 8) {
-                            HStack {
+                            HStack(spacing: 8) {
                                 Image(systemName: "person.2.fill")
                                     .font(.system(size: 14))
                                     .foregroundStyle(.secondary)
-                                Text("\(event.attendeeCount) going")
-                                    .font(.system(size: 14, weight: .medium))
+                                if let cap = event.capacity {
+                                    Text("\(event.attendeeCount) / \(cap) going")
+                                        .font(.system(size: 14, weight: .medium))
+                                    if event.isFull {
+                                        Text("· Full")
+                                            .font(.system(size: 13, weight: .semibold))
+                                            .foregroundStyle(.red)
+                                    } else {
+                                        Text("· \(cap - event.attendeeCount) spots left")
+                                            .font(.system(size: 13))
+                                            .foregroundStyle(.secondary)
+                                    }
+                                } else {
+                                    Text("\(event.attendeeCount) going")
+                                        .font(.system(size: 14, weight: .medium))
+                                }
                             }
                         }
 
@@ -59,12 +76,22 @@ struct EventDetailView: View {
                                 .lineSpacing(4)
                         }
 
+                        Divider()
+
+                        // Comments
+                        commentsSection
+
                         Spacer(minLength: 100)
                     }
                     .padding(20)
                 }
             }
             .ignoresSafeArea(edges: .top)
+            .task {
+                for await batch in commentsStream() {
+                    comments = batch
+                }
+            }
             .safeAreaInset(edge: .bottom) {
                 rsvpButton
                     .padding(.horizontal, 20)
@@ -165,7 +192,7 @@ struct EventDetailView: View {
             .foregroundStyle(isAttending ? .primary : Color(.systemBackground))
             .clipShape(RoundedRectangle(cornerRadius: 14))
         }
-        .disabled(isRSVPing || eventsVM.isOrganizer(event))
+        .disabled(isRSVPing || eventsVM.isOrganizer(event) || (!isAttending && event.isFull))
         .animation(.easeInOut(duration: 0.2), value: isAttending)
     }
 
@@ -185,6 +212,78 @@ struct EventDetailView: View {
                     .font(.system(size: 14))
                     .foregroundStyle(.secondary)
             }
+        }
+    }
+
+    private var commentsSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Comments")
+                .font(.system(size: 17, weight: .semibold))
+
+            if comments.isEmpty {
+                Text("No comments yet. Be the first!")
+                    .font(.system(size: 14))
+                    .foregroundStyle(.secondary)
+            } else {
+                ForEach(comments) { comment in
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text(comment.authorName)
+                                .font(.system(size: 13, weight: .semibold))
+                            Spacer()
+                            Text(comment.createdAt.formatted(date: .abbreviated, time: .shortened))
+                                .font(.system(size: 11))
+                                .foregroundStyle(.tertiary)
+                        }
+                        Text(comment.text)
+                            .font(.system(size: 14))
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding(12)
+                    .background(Color(.secondarySystemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                }
+            }
+
+            HStack(spacing: 10) {
+                TextField("Add a comment…", text: $commentText, axis: .vertical)
+                    .font(.system(size: 14))
+                    .padding(10)
+                    .background(Color(.secondarySystemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .lineLimit(1...4)
+
+                Button {
+                    postComment()
+                } label: {
+                    Image(systemName: "arrow.up.circle.fill")
+                        .font(.system(size: 30))
+                }
+                .disabled(commentText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || isPostingComment)
+            }
+        }
+    }
+
+    private func postComment() {
+        let text = commentText.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !text.isEmpty else { return }
+        guard let uid = eventsVM.currentUserID else { return }
+        let name = eventsVM.currentUserName
+        let comment = Comment(id: UUID().uuidString, authorID: uid, authorName: name, text: text, createdAt: Date())
+        commentText = ""
+        isPostingComment = true
+        Task {
+            try? await FirebaseService.shared.postComment(comment, eventID: event.id)
+            isPostingComment = false
+        }
+    }
+
+    private func commentsStream() -> AsyncStream<[Comment]> {
+        AsyncStream { continuation in
+            let listener = FirebaseService.shared.commentsListener(eventID: event.id) { comments in
+                continuation.yield(comments)
+            }
+            continuation.onTermination = { _ in listener.remove() }
         }
     }
 

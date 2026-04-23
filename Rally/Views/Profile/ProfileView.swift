@@ -75,6 +75,20 @@ struct ProfileView: View {
                     .padding(.vertical, 4)
                 }
 
+                // Stats
+                Section {
+                    HStack {
+                        Spacer()
+                        statCell(value: myEvents.count, label: "Created")
+                        Divider().frame(height: 32)
+                        statCell(value: attendingEvents.count, label: "Attending")
+                        Divider().frame(height: 32)
+                        statCell(value: myEvents.count + attendingEvents.count, label: "Total")
+                        Spacer()
+                    }
+                    .padding(.vertical, 4)
+                }
+
                 // Events attending
                 if !attendingEvents.isEmpty {
                     Section("Going to") {
@@ -149,6 +163,18 @@ struct ProfileView: View {
                 Button("Cancel", role: .cancel) {}
             }
         }
+    }
+
+    @ViewBuilder
+    private func statCell(value: Int, label: String) -> some View {
+        VStack(spacing: 2) {
+            Text("\(value)")
+                .font(.system(size: 22, weight: .bold))
+            Text(label)
+                .font(.system(size: 12))
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity)
     }
 
     private func saveName() {

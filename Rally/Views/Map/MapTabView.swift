@@ -45,6 +45,30 @@ struct MapTabView: View {
                 .animation(.spring(response: 0.35), value: mapVM.selectedEvent?.id)
             }
 
+            // Nearby events pill
+            if !eventsVM.events.isEmpty {
+                VStack {
+                    HStack {
+                        Button {
+                            // no-op — tapping could scroll to events tab in future
+                        } label: {
+                            Label("\(eventsVM.events.count) events nearby", systemImage: "car.2.fill")
+                                .font(.system(size: 13, weight: .medium))
+                                .padding(.horizontal, 14)
+                                .padding(.vertical, 8)
+                                .background(.regularMaterial)
+                                .clipShape(Capsule())
+                                .shadow(color: .black.opacity(0.1), radius: 4, y: 2)
+                        }
+                        .buttonStyle(.plain)
+                        .padding(.leading, 16)
+                        .padding(.top, 56)
+                        Spacer()
+                    }
+                    Spacer()
+                }
+            }
+
             // Top-right controls: locate + create event
             VStack {
                 HStack {

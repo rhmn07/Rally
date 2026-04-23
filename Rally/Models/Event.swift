@@ -37,6 +37,12 @@ struct RallyEvent: Identifiable, Codable {
     var attendeeIDs: [String]
     var tags: [String]
     var photoURL: String?
+    var capacity: Int?
+
+    var isFull: Bool {
+        guard let cap = capacity else { return false }
+        return attendeeIDs.count >= cap
+    }
 
     var coordinate: CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -71,7 +77,8 @@ struct RallyEvent: Identifiable, Codable {
             organizerName: "Alex Chen",
             attendeeIDs: ["u1", "u2", "u3", "u4", "u5"],
             tags: ["all-welcome", "sunday"],
-            photoURL: nil
+            photoURL: nil,
+            capacity: nil
         )
     }
 }

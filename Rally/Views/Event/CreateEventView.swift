@@ -14,6 +14,8 @@ struct CreateEventView: View {
     @State private var coordinate = CLLocationCoordinate2D(latitude: 37.3318, longitude: -122.0312)
     @State private var showLocationPicker = false
 
+    @State private var enableCapacity = false
+    @State private var capacity = 20
     @State private var selectedPhotoItem: PhotosPickerItem?
     @State private var selectedImage: UIImage?
     @State private var isUploadingPhoto = false
@@ -87,6 +89,13 @@ struct CreateEventView: View {
                     }
                 }
 
+                Section("Capacity") {
+                    Toggle("Limit attendees", isOn: $enableCapacity)
+                    if enableCapacity {
+                        Stepper("\(capacity) max", value: $capacity, in: 2...500, step: 5)
+                    }
+                }
+
                 Section("Location") {
                     if address.isEmpty {
                         Button {
@@ -124,7 +133,8 @@ struct CreateEventView: View {
                                 date: date,
                                 coordinate: coordinate,
                                 address: address,
-                                photoURL: photoURL
+                                photoURL: photoURL,
+                            capacity: enableCapacity ? capacity : nil
                             )
                             await MainActor.run { dismiss() }
                         }
