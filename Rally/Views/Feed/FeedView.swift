@@ -167,6 +167,8 @@ private struct TrendingCard: View {
                         endPoint: .bottomTrailing
                     )
                 }
+                .frame(width: 200, height: 130)
+                .clipped()
             } else {
                 LinearGradient(
                     colors: [cardColor.opacity(0.85), cardColor.opacity(0.5)],
@@ -177,8 +179,8 @@ private struct TrendingCard: View {
 
             // Dark scrim so text is always readable over photos
             LinearGradient(
-                colors: [.clear, .black.opacity(0.55)],
-                startPoint: .top,
+                colors: [.clear, .black.opacity(0.65)],
+                startPoint: .center,
                 endPoint: .bottom
             )
 
